@@ -13,6 +13,8 @@ Once complete, You can do this in a single step like this:
 psql -U airplane_demo -h xxx99aa.va.eventador.io -p 9000 -f latest_latlong_by_tailnumber.sql airplane_demo
 ```
 
+__it should be noted that these examples are generic and they need to be tweaked for your specific environment and naming__
+
 You can find your connection details under the 'connections' tab in the [eventador.io console](http://console.eventador.io/). See the [getting started](https://eventador.github.io/documentation/getting_started_guide.html) guide for more details.
 
 ## Going further
