@@ -2,8 +2,8 @@
 # message(s) and deserialize them
 
 require 'json'
-require "net/http"
-require "uri"
+require 'net/http'
+require 'uri'
 
 CONSUMER_GROUP = "brewery_consumer_group" # can be any name identifying a group
                                           # of servers doing similar work

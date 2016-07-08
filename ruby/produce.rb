@@ -2,8 +2,8 @@
 # storing synthesized sensor data
 
 require 'json'
-require "net/http"
-require "uri"
+require 'net/http'
+require 'uri'
 
 TOPIC = "yourlogin_brewery"
 SCHEMA_ID = 2 ## the global unique schema ID to use for these records,

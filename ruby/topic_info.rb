@@ -2,8 +2,8 @@
 # and pretty-print the resulting response
 
 require 'json'
-require "net/http"
-require "uri"
+require 'net/http'
+require 'uri'
 
 TOPIC = "yourlogin_brewery"
 
