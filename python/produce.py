@@ -1,26 +1,17 @@
 import json
-import requests
+from kafka import KafkaProducer
 
-username = "myusername" # change me to value in console->pipeline->connections
-endpoint = "xxxxxx" # change me to value in console->pipeline->connections
-pipeline = "brewery"  # change me to the pipeline name
-topic = "{}_{}".format(username, pipeline)
-schema_id = "52" # change to the value returned from the previous step
-uri = "https://api.{}.vip.eventador.io/topics/{}".format(endpoint, topic)
+EVENTADOR_KAFKA_TOPIC = "brewery"  # any topic name, will autocreate if needed
+EVENTADOR_BOOTSTRAP_SERVERS = "my bootstrap servers"  # value from deployments tab in UI
 
 payload = {}
 
-# this is the ID for the schema to use, it was returned in the previous step
-payload['value_schema_id'] = "{}".format(schema_id)
-
 # this is the data you want to send in
 payload['records'] = [
-  {"value": {"sensor": "MashTun1", "temp":99}},
-  {"value": {"sensor": "MashTun2", "temp":42}}
+  {"value": {"sensor": "MashTun1", "temp": 99}},
+  {"value": {"sensor": "MashTun2", "temp": 42}}
 ]
 
-headers = {'Content-Type': 'application/vnd.kafka.avro.v1+json'}
-r = requests.post(uri,
-                  data=json.dumps(payload),
-                  headers=headers)
-print r.json()
+producer = KafkaProducer(value_serializer=lambda v: json.dumps(v).encode('utf-8'),
+                         bootstrap_servers=EVENTADOR_BOOTSTRAP_SERVERS)
+producer.send(EVENTADOR_KAFKA_TOPIC, json.dumps(payload))
