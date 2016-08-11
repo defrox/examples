@@ -1,5 +1,4 @@
 import json
-import time
 from pprint import pprint
 from kafka import KafkaConsumer
 
