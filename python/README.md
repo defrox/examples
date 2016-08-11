@@ -2,16 +2,23 @@
 
 These are examples of how to produce and consume data to/from eventador.io using python.
 
-## Using the examples
+## Installation
 
-To use the examples you need python 2.6+ on your machine. It's most likely already installed, but if not here is a [installation guide](http://docs.python-guide.org/en/latest/starting/installation/).
+To use the examples you need python 2.6+ on your machine. It's most likely already installed, but if not here is a [installation guide](http://docs.python-guide.org/en/latest/starting/installation/). Using Virtualenv is recommended of course.
+
+Installing requirements:
+
+```
+pip install -r requirements.txt
+```
+
+## Using the examples
 
 You will need to know the following variables and change them in the code. The values can be found in the eventador.io console under the 'connections' tab for a specific pipeline.
 
 ```python
-username = "myusername" # change me to value in console->pipeline->connections
-endpoint = "xxxxxx"     # change me to value in console->pipeline->connections
-pipeline = "brewery"    # change me to the pipeline name
+EVENTADOR_KAFKA_TOPIC = "brewery"  # any topic name, will autocreate if needed
+EVENTADOR_BOOTSTRAP_SERVERS = "my bootstrap servers"  # value from deployments tab in UI
 ```
 
 Once the values are changed to match your account, you can run the examples like:
