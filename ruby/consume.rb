@@ -1,39 +1,66 @@
-# This example will register a consumer, and then consume the next available
-# message(s) and deserialize them
+#!/usr/bin/env ruby
+require "json"
+require "kafka"
+require "yaml"
 
-require 'json'
-require 'net/http'
-require 'uri'
+# Kafka brokers seedlist
+brokers = ENV.fetch("KAFKA_BROKERS", "localhost:9092").split(",")
 
-CONSUMER_GROUP = "brewery_consumer_group" # can be any name identifying a group
-                                          # of servers doing similar work
-TOPIC = "yourlogin_brewery"                  # sample topic logging sensor data
+# Topic
+topic = ENV.fetch("KAFKA_TOPIC", "example")
 
-# register our consumer
-uri = URI.parse("https://api.YOURDEPLOYMENT.eventador.io/consumers/" + CONSUMER_GROUP)
-http = Net::HTTP.new(uri.host, uri.port)
-http.use_ssl = true
+### SSL configuration
+use_ssl = YAML.load(ENV.fetch("KAFKA_USE_SSL", "false"))
+ca_cert = ENV.fetch("KAFKA_CA_CERT", nil)
+client_cert = ENV.fetch("KAFKA_CLIENT_CERT", nil)
+client_key = ENV.fetch("KAFKA_CLIENT_KEY", nil)
 
-request = Net::HTTP::Post.new(uri.request_uri, 
-                              initheader = {'Content-Type' =>'application/vnd.kafka.v1+json'})
+# Consumer Group assignment
+consumer_group = ENV.fetch("KAFKA_CONSUMER_GROUP", "ruby-consumer-group")
 
-request.body = '{"format": "avro", 
-                 "auto.offset.reset": "largest"}' # indicate that we're using avro
-                                                  # to encode the data, and we'd like to
-                                                  # start consuming from the latest message
-http_response = http.request(request)
+# Kafka client id
+client_id = ENV.fetch("KAFKA_CLIENT_ID", "ruby-producer")
 
-json_response = JSON.parse http_response.body     # retrieve our registered kafka-rest endpoint
-endpoint = json_response['base_uri']
+# Start a logger
+logger = Logger.new("producer.log")
 
-# consume messages and deserialize json 
-consumer_uri = URI.parse(endpoint + "/topics/" + TOPIC)
-consumer_http = Net::HTTP.new(consumer_uri.host, consumer_uri.port)
-consumer_http.use_ssl = true
+if use_ssl
+    # Initialize kafka using SSL
+    kafka = Kafka.new(
+        # Inherit the local logger
+        logger: logger,
+        # Broker list
+        seed_brokers: brokers,
+        # Client identifier
+        client_id: client_id,
+        # SSL bits pulled from environment variables
+        ssl_ca_cert: File.read(ca_cert),
+        ssl_client_cert: File.read(client_cert),
+        ssl_client_cert_key: File.read(client_key),
+    )
+else
+    # Initialize kafka using plaintext
+    kafka = Kafka.new(
+            logger: logger,
+            seed_brokers: brokers,
+            client_id: client_id,
+    )
+end
 
-consumer_request = Net::HTTP::Get.new(consumer_uri.request_uri, 
-                                      initheader = {'Accept' =>'application/vnd.kafka.avro.v1+json'})
+# Consumers with the same group id will form a Consumer Group together.
+consumer = kafka.consumer(group_id: consumer_group)
 
-consumer_http_response = consumer_http.request(consumer_request)
-json_response = JSON.parse consumer_http_response.body
-puts json_response
+# Trap kill and ctrl-c
+trap("SIGINT") { consumer.stop }
+trap("QUIT") { consumer.stop }
+
+# Subscribe to configured topic
+consumer.subscribe(topic)
+
+puts "Subscribed to topic: #{topic}.  Waiting for messages..."
+
+# Loop indefinitely over messages in the subscribed topic
+consumer.each_message do |message|
+    # Print out partition::offset ==> key::value
+    puts "#{message.partition}::#{message.offset} ==> #{message.key}::#{message.value}"
+end
