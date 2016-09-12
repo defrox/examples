@@ -7,7 +7,7 @@ require "yaml"
 brokers = ENV.fetch("KAFKA_BROKERS", "localhost:9092").split(",")
 
 # Topic
-topic = ENV.fetch("KAFKA_TOPIC", "example")
+topic = ENV.fetch("KAFKA_TOPIC", "defaultsink")
 
 ### SSL configuration
 use_ssl = YAML.load(ENV.fetch("KAFKA_USE_SSL", "false"))
