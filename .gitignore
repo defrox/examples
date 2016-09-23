@@ -91,3 +91,6 @@ ENV/
 ## Ruby section
 Gemfile.lock
 .ruby-version
+
+## Node section
+node/node_modules/
