@@ -1,0 +1,9 @@
+{
+  "name": "eventador-examples-node",
+  "version": "1.0.0",
+  "description": "Eventador Node.JS Kafka Driver Examples",
+  "dependencies": {
+    "js-yaml": "^3.6.1",
+    "kafka-node": "^0.5.8"
+  }
+}
