@@ -4,22 +4,22 @@ require "kafka"
 require "yaml"
 
 # Kafka brokers seedlist
-brokers = ENV.fetch("KAFKA_BROKERS", "localhost:9092").split(",")
+brokers = ENV.fetch("EVENTADOR_BOOTSTRAP_SERVERS", "localhost:9092").split(",")
 
 # Topic
-topic = ENV.fetch("KAFKA_TOPIC", "defaultsink")
+topic = ENV.fetch("EVENTADOR_KAFKA_TOPIC", "defaultsink")
 
 ### SSL configuration
-use_ssl = YAML.load(ENV.fetch("KAFKA_USE_SSL", "false"))
-ca_cert = ENV.fetch("KAFKA_CA_CERT", nil)
-client_cert = ENV.fetch("KAFKA_CLIENT_CERT", nil)
-client_key = ENV.fetch("KAFKA_CLIENT_KEY", nil)
+use_ssl = YAML.load(ENV.fetch("EVENTADOR_KAFKA_USE_SSL", "false"))
+ca_cert = ENV.fetch("EVENTADOR_KAFKA_CA_CERT", nil)
+client_cert = ENV.fetch("EVENTADOR_KAFKA_CLIENT_CERT", nil)
+client_key = ENV.fetch("EVENTADOR_KAFKA_CLIENT_KEY", nil)
 
 # Consumer Group assignment
-consumer_group = ENV.fetch("KAFKA_CONSUMER_GROUP", "ruby-consumer-group")
+consumer_group = ENV.fetch("EVENTADOR_KAFKA_CONSUMER_GROUP", "ruby-consumer-group")
 
 # Kafka client id
-client_id = ENV.fetch("KAFKA_CLIENT_ID", "ruby-producer")
+client_id = ENV.fetch("EVENTADOR_KAFKA_CLIENT_ID", "ruby-producer")
 
 # Start a logger
 logger = Logger.new("producer.log")
