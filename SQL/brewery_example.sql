@@ -1,5 +1,5 @@
 CREATE CONTINUOUS VIEW brewery_sensor_temps
-WITH (max_age = '5 minutes')
+WITH (sw = '5 minutes')
 AS
 SELECT payload->>'sensor' as sensor,
 AVG((payload->>'temp'::text)::numeric)
