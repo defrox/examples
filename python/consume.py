@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from __future__ import print_function
+
 import os
 import sys
 
@@ -9,10 +11,10 @@ KAFKA_BROKERS = os.getenv("EVENTADOR_BOOTSTRAP_SERVERS", "localhost:9092")
 
 consumer = KafkaConsumer(KAFKA_TOPIC, bootstrap_servers=KAFKA_BROKERS)
 
-print "connected to {} topic {}".format(KAFKA_BROKERS, KAFKA_TOPIC)
+print("connected to {} topic {}".format(KAFKA_BROKERS, KAFKA_TOPIC))
 
 try:
     for msg in consumer:
-        print msg
+        print(msg)
 except KeyboardInterrupt:
     sys.exit()
