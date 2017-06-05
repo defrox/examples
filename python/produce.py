@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from __future__ import print_function
+
 import json
 import os
 import random
@@ -13,7 +15,7 @@ KAFKA_BROKERS = os.getenv("EVENTADOR_BOOTSTRAP_SERVERS", "localhost:9092")
 producer = KafkaProducer(value_serializer=lambda v: json.dumps(v).encode('utf-8'),
                          bootstrap_servers=KAFKA_BROKERS)
 
-print "connected to {} topic {}".format(KAFKA_BROKERS, KAFKA_TOPIC)
+print("connected to {} topic {}".format(KAFKA_BROKERS, KAFKA_TOPIC))
 
 
 def get_sensor():
@@ -26,7 +28,8 @@ def sendto_eventador(payload):
     try:
         producer.send(KAFKA_TOPIC, payload)
     except:
-        "Print unable to produce to {} topic {}".format(KAFKA_BROKERS, KAFKA_TOPIC)
+        print("unable to produce to {} topic {}".format(KAFKA_BROKERS, KAFKA_TOPIC))
+
 
 payload = {}
 while True:
@@ -37,7 +40,7 @@ while True:
         for sensor in sensors:
             payload = {"sensor": sensor, "temp": get_sensor()}
             sendto_eventador(payload)
-            print payload
+            print(payload)
 
         # Flush the produce buffer and send to kafka
         producer.flush()
