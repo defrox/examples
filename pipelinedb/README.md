@@ -13,7 +13,7 @@ Once complete, You can do this in a single step like this:
 psql -U airplane_demo -h xxx99aa.va.eventador.io -p 9000 -f latest_latlong_by_tailnumber.sql airplane_demo
 ```
 
-You can find your connection details under the 'connections' tab in the [eventador.io console](http://console.eventador.io/). See the [getting started](https://eventador.github.io/documentation/getting_started_guide.html) guide for more details.
+You can find your connection details under the 'connections' tab in the [eventador.io console](http://console.eventador.io/).
 
 ## Going further
 

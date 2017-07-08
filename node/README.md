@@ -1,4 +1,5 @@
 # Node Examples
+For help getting started with Eventador checkout our [getting started guide](http://eventador.io/getting_started_guide.html).
 
 The node examples utilize the [kafka-node](https://github.com/SOHU-Co/kafka-node) driver.
 
@@ -33,7 +34,3 @@ node consumer.js
 ```
 
 It should be noted that these examples are just that and may not show best practices for your given use case.
-
-## Going further
-
-Check out the eventador.io [getting started guide](https://eventador.github.io/documentation/getting_started_guide.html) for a complete example.

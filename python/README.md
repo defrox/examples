@@ -1,4 +1,5 @@
 # Python Examples
+For help getting started with Eventador checkout our [getting started guide](http://eventador.io/getting_started_guide.html).
 
 These are examples of how to produce and consume data to/from eventador.io using python.
 
@@ -29,6 +30,3 @@ python produce.py
 
 It should be noted the examples should be tailored to your specific use case, these are just examples.
 
-## Going further
-
-Check out the eventador.io [getting started guide](https://eventador.github.io/documentation/getting_started_guide.html) for a complete example.
