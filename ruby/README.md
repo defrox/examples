@@ -1,4 +1,5 @@
 # Ruby Examples
+For help getting started with Eventador checkout our [getting started guide](http://eventador.io/getting_started_guide.html).
 
 The ruby examples utilize the ZenDesk [ruby-kafka](https://github.com/zendesk/ruby-kafka) driver.
 
@@ -39,7 +40,3 @@ ruby consumer.rb
 ```
 
 It should be noted the examples should be tailored to your specific use case, these are just examples.
-
-## Going further
-
-Check out the eventador.io [getting started guide](https://eventador.github.io/documentation/getting_started_guide.html) for a complete example.
